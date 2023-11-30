@@ -8,9 +8,14 @@
 // lista com n tipo de pecas (todos com dimensoes diferentes)
 // cada peca tem dimensoes a*b e um preço p
 
-struct piece {
-    int height;
-    int lenght;
-    int price;
-} piece;
+#include <stdio.h>
 
+int main(){
+    int x , y, n_lines, line, column, price = 0;
+    scanf("%d %d", &x, &y );
+    scanf("%d", &n_lines);
+    for(int i =0; i < n_lines; i++){
+        scanf("%d%d%d", &line, &column, price);
+    }
+    
+}
