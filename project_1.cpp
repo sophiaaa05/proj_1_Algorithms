@@ -12,51 +12,47 @@
 #include <vector>
 #include <algorithm>
 #include <stdio.h>
-const int MAX = 1024;
+#include <numeric>
+
+using namespace std;
 
 int max(int a, int b){
     return (a > b)? a:b;
 }
 
-
-struct Peca
-{
-    int linha, col, preco;
-};
-
-
-
-int valor_max(Peca pecas[],int n_linhas, int x, int y){
-    
-    int tabela[MAX][MAX] = {0};
-    for(int i = 1; i <= n_linhas;i++){
-        for(int j= x; j>= 0; j--){
-            for(int k= y; k>=0; k--){
-                if (j >= pecas[i - 1].linha && k >= pecas[i - 1].col) {
-                    tabela[j][k] = max(tabela[j][k], tabela[j - pecas[i - 1].linha][k - pecas[i - 1].col] + pecas[i - 1].preco);
-                }
-                if (j >= pecas[i - 1].col && k >= pecas[i - 1].linha) {
-                    tabela[j][k] = max(tabela[j][k], tabela[j - pecas[i - 1].col][k - pecas[i - 1].linha] + pecas[i - 1].preco);
-                }
-            }   
-        }   
+int valor_max(int **marmore, int x, int y){
+    for( int linha = 1; linha <= x ; linha ++){
+        for( int coluna = 1; coluna <= y ; coluna ++){
+            for(int k = 1; k <= coluna; k++){
+               marmore[linha][coluna] = max(marmore[linha][coluna], marmore[linha-k][coluna] + marmore[k][coluna]);
+            }
+            for(int k = 1; k <= linha; k++){
+               marmore[linha][coluna] = max(marmore[linha][coluna], marmore[linha][coluna-k] + marmore[linha][k]);
+            }
+        }
     }
-    return tabela[x][y];
+    return marmore[x][y];
 }
 
 int main(){
 
-    int x , y, n_linhas= 0;
+    int x , y, n_pecas, linha, col, preco = 0;
+
     scanf("%d %d", &x, &y );
-    scanf("%d", &n_linhas);
-    Peca pecas[2* n_linhas];
-
-    for(int i =0; i < n_linhas; i++){
-        scanf("%d %d %d", &pecas[i].linha, &pecas[i].col, &pecas[i].preco);
-        pecas[n_linhas + i] = {pecas[i].col, pecas[i].linha, pecas[i].preco};
-
+    scanf("%d", &n_pecas);
+    int **marmore = new int *[x + 1];
+    for(int i = 0; i < y + 1 ; i++){
+        marmore[i] = new int [y + 1];
+    }
+    
+    for(int i = 0; i < n_pecas; i++){
+        scanf("%d %d %d", &linha, &col, &preco);
+        if( linha < x && col < y){
+            marmore[linha][col] = preco;
+            marmore[col][linha] = preco;
+        }
     }
 
-    printf("%d\n", valor_max(pecas,2* n_linhas, x, y));
+    printf("%d\n", valor_max(marmore, x, y));
     return 0;
 }
