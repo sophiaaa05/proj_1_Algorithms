@@ -23,11 +23,14 @@ int max(int a, int b){
 int valor_max(int **marmore, int x, int y){
     for( int linha = 1; linha <= x ; linha ++){
         for( int coluna = 1; coluna <= y ; coluna ++){
-            for(int k = 1; k <= coluna; k++){
-               marmore[linha][coluna] = max(marmore[linha][coluna], marmore[linha-k][coluna] + marmore[k][coluna]);
-            }
             for(int k = 1; k <= linha; k++){
+               marmore[linha][coluna] = max(marmore[linha][coluna], marmore[linha-k][coluna] + marmore[k][coluna]);
+
+            }
+            for(int k = 1; k <= coluna; k++){
+
                marmore[linha][coluna] = max(marmore[linha][coluna], marmore[linha][coluna-k] + marmore[linha][k]);
+
             }
         }
     }
@@ -41,17 +44,22 @@ int main(){
     scanf("%d %d", &x, &y );
     scanf("%d", &n_pecas);
     int **marmore = new int *[x + 1];
-    for(int i = 0; i < y + 1 ; i++){
+    for(int i = 0; i < x + 1 ; i++){
         marmore[i] = new int [y + 1];
     }
     
     for(int i = 0; i < n_pecas; i++){
         scanf("%d %d %d", &linha, &col, &preco);
-        if( linha < x && col < y){
+        if( linha <= x && col <= y){
             marmore[linha][col] = preco;
+        
+        }
+        if(col<= x && linha<= y){
             marmore[col][linha] = preco;
         }
+        
     }
+
 
     printf("%d\n", valor_max(marmore, x, y));
     return 0;
