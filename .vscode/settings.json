@@ -14,5 +14,8 @@
         "tab.activeBorder": "#dbccff",
         "iLoveWorkSpaceColors": true,
         "iLoveWorkSpaceRandom": false
+    },
+    "files.associations": {
+        "vector": "cpp"
     }
 }

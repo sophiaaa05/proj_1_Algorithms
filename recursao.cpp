@@ -6,15 +6,7 @@
 
 using namespace std;
 
-int max(int a, int b){
-    return (a > b)? a:b;
-}
-
 vector<vector<int>> grafo;
-// vector<int> d, low, final;
-// vector<bool> visitada;
-// int tempo = 0;
-stack<int> pilha;
 
 int dfs_recursiva(int v)
 {
@@ -26,7 +18,8 @@ int dfs_recursiva(int v)
 
     int max = 0;
 
-    for (size_t i = 0; i < grafo[v-1].size() ; i++)
+    for (int i = 0; i < grafo[v].size(); i++)
+
     {
         int comparator = dfs_recursiva(grafo[v][i]);
 
@@ -35,24 +28,33 @@ int dfs_recursiva(int v)
             max = comparator;
         }
     }
+
     return max + 1;
 }
 
-// int dfs_iterativa(int v)
-// {
-//     if (grafo[v].empty())
-//     {
-//         return 0;
-//     }
+stack<int> pilha;
 
-//     int max_path = 0;
+vector<bool> visitada;
 
-//     return max_path + 1;
-// }
+int dfs_iterativa(int v)
+{
 
+    if (grafo[v].size() == 0)
+    {
+        return 0;
+    }
+    int max = 0;
 
-void tarjan_recursivo(){
-    
+    for (int i = 0; i < grafo[v].size(); i++)
+    {
+        pilha.push(v);
+    }
+
+    return max + 1;
+}
+
+void tarjan_recursico(){
+
 }
 
 int main()
@@ -70,24 +72,22 @@ int main()
         grafo[a].push_back(b);
     }
 
-    // for (int i = 1; i <= n_pessoas; i++)
-    // {
-    //     printf("%d : ", i);
-    //     for (int j = 0; j < grafo[i].size(); j++)
-    //     {
-
-    //         printf("%d ", grafo[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-    int max_num = 0;
     for (int i = 1; i <= n_pessoas; i++)
     {
-        max_num = max(max_num, dfs_recursiva(i));
-        
+        printf("%d : ", i);
+        for (int j = 0; j < grafo[i].size(); j++)
+        {
+
+            printf("%d ", grafo[i][j]);
+        }
+        printf("\n");
     }
 
-    printf("%d\n", max_num);
+    for (int i = 1; i <= n_pessoas; i++)
+    {
+        int resultado = dfs_recursiva(i);
+        printf("meu i : %d meu resultado: %d\n", i, resultado);
+    }
 
     return 0;
 }
